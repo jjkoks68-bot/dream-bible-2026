@@ -1,271 +1,30 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>드림교회 후반기 신약성경방</title>
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --accent-color: #2980b9;
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-color: #333333;
-        }
-        body {
-            font-family: 'Malgun Gothic', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 0 15px;
-        }
-        .progress-container {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        progress {
-            width: 100%;
-            height: 20px;
-            border-radius: 10px;
-        }
-        .week-section {
-            background: var(--card-bg);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .week-title {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: var(--accent-color);
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-        }
-        .day-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .day-item:last-child {
-            border-bottom: none;
-        }
-        .day-info {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .day-badge {
-            background: #eef2f7;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 0.85em;
-            width: fit-content;
-        }
-        .day-title {
-            font-size: 0.95em;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-        .btn-read {
-            background-color: #2980b9;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            font-size: 0.85em;
-        }
-        .btn-read:hover {
-            background-color: #1f618d;
-        }
-        input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-        /* 모달 팝업 스타일 */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-        .modal-content {
-            background-color: white;
-            margin: 15% auto;
-            padding: 25px;
-            width: 85%;
-            max-width: 600px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        .close-btn {
-            float: right;
-            font-size: 1.5em;
-            font-weight: bold;
-            cursor: pointer;
-            color: #888;
-        }
-        .close-btn:hover {
-            color: #000;
-        }
-    </style>
-</head>
-<body>
-
-<header>
-    <h1>드림교회 후반기 신약성경방</h1>
-    <p>예수 그리스도를 발견하는 12주 구속사 통독 여정</p>
-</header>
-
-<div class="container">
-    <div class="progress-container">
-        <h3>나의 통독 진도율</h3>
-        <progress id="progressBar" value="0" max="84"></progress>
-        <p id="progressText">0 / 84일 완료 (0%)</p>
-    </div>
-
-    <div id="contentArea"></div>
-</div>
-
-<!-- 본문 보기 모달창 -->
-<div id="readModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h3 id="modalHeader" style="color: var(--accent-color); margin-top: 0;"></h3>
-        <p id="modalText" style="line-height: 1.6; color: #444; white-space: pre-line;"></p>
-    </div>
-</div>
-
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>드림교회 후반기 신약성경방</title><style>
+:root{--primary-color:#2c3e50;--accent-color:#2980b9;--bg-color:#f8f9fa;--card-bg:#fff;--text-color:#333}
+body{font-family:'Malgun Gothic',sans-serif;background:var(--bg-color);color:var(--text-color);margin:0;padding:0}
+header{background:var(--primary-color);color:#fff;padding:20px;text-align:center}
+.container{max-width:800px;margin:20px auto;padding:0 15px}
+.progress-container,.week-section{background:#fff;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,.1)}
+.progress-container{padding:15px;margin-bottom:20px}.week-section{padding:20px;margin-bottom:20px}
+progress{width:100%;height:20px;border-radius:10px}
+.week-title{font-size:1.1em;font-weight:bold;color:var(--accent-color);border-bottom:2px solid var(--accent-color);padding-bottom:8px;margin-bottom:15px}
+.day-item{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eee;gap:10px}
+.day-item:last-child{border-bottom:none}.day-info{display:flex;flex-direction:column;gap:4px}
+.day-badge{background:#eef2f7;padding:3px 8px;border-radius:4px;font-weight:bold;font-size:.85em;width:fit-content}
+.day-title{font-size:.95em;font-weight:600;color:#2c3e50}
+.btn-read{background:#2980b9;color:#fff;padding:6px 12px;border-radius:4px;border:none;cursor:pointer;font-size:.85em;text-decoration:none;display:inline-block;white-space:nowrap}
+.btn-read:hover{background:#1f618d}input[type=checkbox]{width:20px;height:20px;cursor:pointer}
+</style></head><body><header><h1>드림교회 후반기 신약성경방</h1><p>예수 그리스도를 발견하는 12주 구속사 통독 여정</p></header><div class="container"><div class="progress-container"><h3>나의 통독 진도율</h3><progress id="progressBar" value="0" max="84"></progress><p id="progressText">0 / 84일 완료 (0%)</p></div><div id="contentArea"></div></div>
 <script>
-    // 12주 84일 전체 커리큘럼 및 일자별 본문 데이터 정의
-    const curriculumData = [
-        { week: 1, title: "1차시 | 약속의 왕으로 오신 예수님 (마태·마가)", days: 7, startDay: 1,
-          readings: [
-              { day: 1, title: "마태복음 1장", content: "아브라함과 다윗의 자손 예수 그리스도의 계보라...\n(1차시 1일차: 구약의 왕으로 약속된 메시아의 족보와 탄생)" },
-              { day: 2, title: "마태복음 4장", content: "그 때에 예수께서 성령에게 이끌려 마귀에게 시험을 받으러 광야로 가사...\n(광야 시험 승리와 공생애 시작)" },
-              { day: 3, title: "마태복음 8장", content: "예수께서 산에서 내려오시니 수많은 무리가 따르니라...\n(병든 자를 고치시며 권세 있게 다스리시는 왕 예수)" },
-              { day: 4, title: "마태복음 13장", content: "그 날에 예수께서 집에서 나가사 바닷가에 앉으시매...\n(천국 비유와 하나님 나라의 비밀)" },
-              { day: 5, title: "마태복음 20장", content: "천국은 마치 품꾼을 얻어 포도원에 들일 주인의 비유와 같으니...\n(섬기는 종으로 오신 예수님의 고난 예고)" },
-              { day: 6, title: "마가복음 1장", content: "하나님의 아들 예수 그리스도의 복음의 시작이라...\n(능력 있는 말씀과 귀신을 쫓아내시는 권세)" },
-              { day: 7, title: "마가복음 10장", content: "인자가 온 것은 섬김을 받으려 함이 아니라 도리어 섬기려 하고...\n(참된 섬김의 본을 보이신 예수님)" }
-          ]
-        },
-        { week: 2, title: "2차시 | 찾아오시는 구원자와 생명의 길 (누가·요한)", days: 7, startDay: 8 },
-        { week: 3, title: "3차시 | 성령으로 세워지는 교회와 믿음의 의 (사도행전·로마서)", days: 7, startDay: 15 },
-        { week: 4, title: "4차시 | 사랑으로 세워지는 공동체 (고린도전후서)", days: 7, startDay: 22 },
-        { week: 5, title: "5차시 | 성령의 열매와 하나님의 백성 (갈라디아서·에베소서)", days: 7, startDay: 29 },
-        { week: 6, title: "6차시 | 주님 안에서 누리는 참된 기쁨 (빌립보서·골로새서)", days: 7, startDay: 36 },
-        { week: 7, title: "7차시 | 다시 오실 주님을 기다리는 성도 (데살로니가전후서)", days: 7, startDay: 43 },
-        { week: 8, title: "8차시 | 말씀으로 세워지는 하나님의 사람 (디모데전후서·디도서)", days: 7, startDay: 50 },
-        { week: 9, title: "9차시 | 용서와 완전한 제사장이신 예수님 (빌레몬서·히브리서)", days: 7, startDay: 57 },
-        { week: 10, title: "10차시 | 믿음은 삶으로 나타난다 (야고보서·베드로전서)", days: 7, startDay: 64 },
-        { week: 11, title: "11차시 | 사랑과 진리 안에서 성장하는 믿음 (베드로후서·요한서신)", days: 7, startDay: 71 },
-        { week: 12, title: "12차시 | 어린양의 승리와 하나님 나라 완성 (유다서·요한계시록)", days: 7, startDay: 78 }
-    ];
-
-    function renderApp() {
-        const contentArea = document.getElementById('contentArea');
-        let html = '';
-
-        curriculumData.forEach(w => {
-            html += `<div class="week-section">
-                <div class="week-title">${w.title}</div>`;
-            
-            for (let i = 0; i < w.days; i++) {
-                let dayNum = w.startDay + i;
-                let isChecked = localStorage.getItem(`dream_day_${dayNum}`) === 'true' ? 'checked' : '';
-                
-                // 해당 일차의 제목 및 본문 가져오기 (데이터가 없으면 기본값 설정)
-                let readingTitle = `신약 통독 Day ${dayNum}`;
-                let readingContent = `Day ${dayNum} 성경 읽기 분량입니다. 은혜로운 묵상 시간이 되시기를 바랍니다.`;
-                
-                if (w.readings && w.readings[i]) {
-                    readingTitle = w.readings[i].title;
-                    readingContent = w.readings[i].content;
-                }
-
-                // 특수문자 깨짐 방지를 위한 인코딩
-                let safeTitle = encodeURIComponent(readingTitle);
-                let safeContent = encodeURIComponent(readingContent);
-                
-                html += `
-                    <div class="day-item">
-                        <div class="day-info">
-                            <span class="day-badge">${dayNum}일차</span>
-                            <span class="day-title">${readingTitle}</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <button class="btn-read" onclick="openModal('${safeTitle}', '${safeContent}')">본문 보기</button>
-                            <input type="checkbox" data-day="${dayNum}" ${isChecked} onclick="toggleCheck(${dayNum})">
-                        </div>
-                    </div>
-                `;
-            }
-            html += `</div>`;
-        });
-
-        contentArea.innerHTML = html;
-        updateProgress();
-    }
-
-    function openModal(title, content) {
-        document.getElementById('modalHeader').innerText = decodeURIComponent(title);
-        document.getElementById('modalText').innerText = decodeURIComponent(content);
-        document.getElementById('readModal').style.display = 'block';
-    }
-
-    function closeModal() {
-        document.getElementById('readModal').style.display = 'none';
-    }
-
-    function toggleCheck(dayNum) {
-        const checkbox = document.querySelector(`input[data-day="${dayNum}"]`);
-        localStorage.setItem(`dream_day_${dayNum}`, checkbox.checked);
-        updateProgress();
-    }
-
-    function updateProgress() {
-        let completedCount = 0;
-        for (let i = 1; i <= 84; i++) {
-            if (localStorage.getItem(`dream_day_${i}`) === 'true') {
-                completedCount++;
-            }
-        }
-        const progressBar = document.getElementById('progressBar');
-        const progressText = document.getElementById('progressText');
-        
-        progressBar.value = completedCount;
-        let percent = Math.round((completedCount / 84) * 100);
-        progressText.innerText = `${completedCount} / 84일 완료 (${percent}%)`;
-    }
-
-    // 앱 실행
-    renderApp();
-</script>
-
-</body>
-</html>
+document.getElementById('contentArea').innerHTML = `<div class="week-section"><div class="week-title">1차시 | 약속의 왕으로 오신 예수님 (마태·마가)</div><div class="day-item"><div class="day-info"><span class="day-badge">1일차</span><span class="day-title">마태복음 1~7장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=mat&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="1" onclick="toggleCheck(1)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">2일차</span><span class="day-title">마태복음 8~14장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=mat&chap=8&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="2" onclick="toggleCheck(2)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">3일차</span><span class="day-title">마태복음 15~21장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=mat&chap=15&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="3" onclick="toggleCheck(3)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">4일차</span><span class="day-title">마태복음 22~28장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=mat&chap=22&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="4" onclick="toggleCheck(4)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">5일차</span><span class="day-title">마가복음 1~5장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=mrk&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="5" onclick="toggleCheck(5)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">6일차</span><span class="day-title">마가복음 6~10장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=mrk&chap=6&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="6" onclick="toggleCheck(6)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">7일차</span><span class="day-title">마가복음 11~16장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=mrk&chap=11&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="7" onclick="toggleCheck(7)"></div></div></div><div class="week-section"><div class="week-title">2차시 | 찾아오시는 구원자와 생명의 길 (누가·요한)</div><div class="day-item"><div class="day-info"><span class="day-badge">8일차</span><span class="day-title">누가복음 1~6장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=luk&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="8" onclick="toggleCheck(8)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">9일차</span><span class="day-title">누가복음 7~12장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=luk&chap=7&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="9" onclick="toggleCheck(9)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">10일차</span><span class="day-title">누가복음 13~18장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=luk&chap=13&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="10" onclick="toggleCheck(10)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">11일차</span><span class="day-title">누가복음 19~24장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=luk&chap=19&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="11" onclick="toggleCheck(11)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">12일차</span><span class="day-title">요한복음 1~7장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=jhn&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="12" onclick="toggleCheck(12)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">13일차</span><span class="day-title">요한복음 8~14장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=jhn&chap=8&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="13" onclick="toggleCheck(13)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">14일차</span><span class="day-title">요한복음 15~21장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=jhn&chap=15&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="14" onclick="toggleCheck(14)"></div></div></div><div class="week-section"><div class="week-title">3차시 | 성령으로 세워지는 교회와 믿음의 의 (사도행전·로마서)</div><div class="day-item"><div class="day-info"><span class="day-badge">15일차</span><span class="day-title">사도행전 1~7장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=act&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="15" onclick="toggleCheck(15)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">16일차</span><span class="day-title">사도행전 8~14장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=act&chap=8&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="16" onclick="toggleCheck(16)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">17일차</span><span class="day-title">사도행전 15~21장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=act&chap=15&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="17" onclick="toggleCheck(17)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">18일차</span><span class="day-title">사도행전 22~28장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=act&chap=22&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="18" onclick="toggleCheck(18)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">19일차</span><span class="day-title">로마서 1~5장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=rom&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="19" onclick="toggleCheck(19)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">20일차</span><span class="day-title">로마서 6~11장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=rom&chap=6&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="20" onclick="toggleCheck(20)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">21일차</span><span class="day-title">로마서 12~16장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=rom&chap=12&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="21" onclick="toggleCheck(21)"></div></div></div><div class="week-section"><div class="week-title">4차시 | 사랑으로 세워지는 공동체 (고린도전후서)</div><div class="day-item"><div class="day-info"><span class="day-badge">22일차</span><span class="day-title">고린도전서 1~5장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1co&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="22" onclick="toggleCheck(22)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">23일차</span><span class="day-title">고린도전서 6~10장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1co&chap=6&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="23" onclick="toggleCheck(23)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">24일차</span><span class="day-title">고린도전서 11~16장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1co&chap=11&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="24" onclick="toggleCheck(24)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">25일차</span><span class="day-title">고린도후서 1~4장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=2co&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="25" onclick="toggleCheck(25)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">26일차</span><span class="day-title">고린도후서 5~8장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=2co&chap=5&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="26" onclick="toggleCheck(26)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">27일차</span><span class="day-title">고린도후서 9~11장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=2co&chap=9&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="27" onclick="toggleCheck(27)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">28일차</span><span class="day-title">고린도후서 12~13장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=2co&chap=12&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="28" onclick="toggleCheck(28)"></div></div></div><div class="week-section"><div class="week-title">5차시 | 성령의 열매와 하나님의 백성 (갈라디아서·에베소서)</div><div class="day-item"><div class="day-info"><span class="day-badge">29일차</span><span class="day-title">갈라디아서 1~2장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=gal&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="29" onclick="toggleCheck(29)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">30일차</span><span class="day-title">갈라디아서 3~4장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=gal&chap=3&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="30" onclick="toggleCheck(30)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">31일차</span><span class="day-title">갈라디아서 5~6장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=gal&chap=5&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="31" onclick="toggleCheck(31)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">32일차</span><span class="day-title">에베소서 1~2장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=eph&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="32" onclick="toggleCheck(32)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">33일차</span><span class="day-title">에베소서 3~4장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=eph&chap=3&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="33" onclick="toggleCheck(33)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">34일차</span><span class="day-title">에베소서 5장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=eph&chap=5&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="34" onclick="toggleCheck(34)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">35일차</span><span class="day-title">에베소서 6장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=eph&chap=6&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="35" onclick="toggleCheck(35)"></div></div></div><div class="week-section"><div class="week-title">6차시 | 주님 안에서 누리는 참된 기쁨 (빌립보서·골로새서)</div><div class="day-item"><div class="day-info"><span class="day-badge">36일차</span><span class="day-title">빌립보서 1~2장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=php&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="36" onclick="toggleCheck(36)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">37일차</span><span class="day-title">빌립보서 3장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=php&chap=3&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="37" onclick="toggleCheck(37)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">38일차</span><span class="day-title">빌립보서 4장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=php&chap=4&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="38" onclick="toggleCheck(38)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">39일차</span><span class="day-title">골로새서 1장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=col&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="39" onclick="toggleCheck(39)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">40일차</span><span class="day-title">골로새서 2장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=col&chap=2&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="40" onclick="toggleCheck(40)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">41일차</span><span class="day-title">골로새서 3장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=col&chap=3&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="41" onclick="toggleCheck(41)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">42일차</span><span class="day-title">골로새서 4장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=col&chap=4&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="42" onclick="toggleCheck(42)"></div></div></div><div class="week-section"><div class="week-title">7차시 | 다시 오실 주님을 기다리는 성도 (데살로니가전후서)</div><div class="day-item"><div class="day-info"><span class="day-badge">43일차</span><span class="day-title">데살로니가전서 1~2장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1th&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="43" onclick="toggleCheck(43)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">44일차</span><span class="day-title">데살로니가전서 3장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1th&chap=3&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="44" onclick="toggleCheck(44)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">45일차</span><span class="day-title">데살로니가전서 4장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1th&chap=4&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="45" onclick="toggleCheck(45)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">46일차</span><span class="day-title">데살로니가전서 5장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1th&chap=5&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="46" onclick="toggleCheck(46)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">47일차</span><span class="day-title">데살로니가후서 1장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=2th&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="47" onclick="toggleCheck(47)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">48일차</span><span class="day-title">데살로니가후서 2장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=2th&chap=2&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="48" onclick="toggleCheck(48)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">49일차</span><span class="day-title">데살로니가후서 3장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=2th&chap=3&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="49" onclick="toggleCheck(49)"></div></div></div><div class="week-section"><div class="week-title">8차시 | 말씀으로 세워지는 하나님의 사람 (디모데전후서·디도서)</div><div class="day-item"><div class="day-info"><span class="day-badge">50일차</span><span class="day-title">디모데전서 1~2장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1ti&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="50" onclick="toggleCheck(50)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">51일차</span><span class="day-title">디모데전서 3~4장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1ti&chap=3&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="51" onclick="toggleCheck(51)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">52일차</span><span class="day-title">디모데전서 5~6장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1ti&chap=5&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="52" onclick="toggleCheck(52)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">53일차</span><span class="day-title">디모데후서 1~2장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=2ti&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="53" onclick="toggleCheck(53)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">54일차</span><span class="day-title">디모데후서 3~4장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=2ti&chap=3&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="54" onclick="toggleCheck(54)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">55일차</span><span class="day-title">디도서 1~2장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=tit&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="55" onclick="toggleCheck(55)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">56일차</span><span class="day-title">디도서 3장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=tit&chap=3&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="56" onclick="toggleCheck(56)"></div></div></div><div class="week-section"><div class="week-title">9차시 | 용서와 완전한 제사장이신 예수님 (빌레몬서·히브리서)</div><div class="day-item"><div class="day-info"><span class="day-badge">57일차</span><span class="day-title">빌레몬서 1장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=phm&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="57" onclick="toggleCheck(57)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">58일차</span><span class="day-title">히브리서 1~2장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=heb&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="58" onclick="toggleCheck(58)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">59일차</span><span class="day-title">히브리서 3~4장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=heb&chap=3&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="59" onclick="toggleCheck(59)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">60일차</span><span class="day-title">히브리서 5~6장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=heb&chap=5&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="60" onclick="toggleCheck(60)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">61일차</span><span class="day-title">히브리서 7~8장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=heb&chap=7&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="61" onclick="toggleCheck(61)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">62일차</span><span class="day-title">히브리서 9~10장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=heb&chap=9&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="62" onclick="toggleCheck(62)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">63일차</span><span class="day-title">히브리서 11~13장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=heb&chap=11&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="63" onclick="toggleCheck(63)"></div></div></div><div class="week-section"><div class="week-title">10차시 | 믿음은 삶으로 나타난다 (야고보서·베드로전서)</div><div class="day-item"><div class="day-info"><span class="day-badge">64일차</span><span class="day-title">야고보서 1~2장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=jas&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="64" onclick="toggleCheck(64)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">65일차</span><span class="day-title">야고보서 3~4장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=jas&chap=3&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="65" onclick="toggleCheck(65)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">66일차</span><span class="day-title">야고보서 5장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=jas&chap=5&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="66" onclick="toggleCheck(66)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">67일차</span><span class="day-title">베드로전서 1~2장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1pe&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="67" onclick="toggleCheck(67)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">68일차</span><span class="day-title">베드로전서 3장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1pe&chap=3&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="68" onclick="toggleCheck(68)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">69일차</span><span class="day-title">베드로전서 4장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1pe&chap=4&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="69" onclick="toggleCheck(69)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">70일차</span><span class="day-title">베드로전서 5장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1pe&chap=5&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="70" onclick="toggleCheck(70)"></div></div></div><div class="week-section"><div class="week-title">11차시 | 사랑과 진리 안에서 성장하는 믿음 (베드로후서·요한서신)</div><div class="day-item"><div class="day-info"><span class="day-badge">71일차</span><span class="day-title">베드로후서 1~2장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=2pe&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="71" onclick="toggleCheck(71)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">72일차</span><span class="day-title">베드로후서 3장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=2pe&chap=3&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="72" onclick="toggleCheck(72)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">73일차</span><span class="day-title">요한일서 1~2장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1jn&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="73" onclick="toggleCheck(73)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">74일차</span><span class="day-title">요한일서 3~4장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1jn&chap=3&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="74" onclick="toggleCheck(74)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">75일차</span><span class="day-title">요한일서 5장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=1jn&chap=5&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="75" onclick="toggleCheck(75)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">76일차</span><span class="day-title">요한이서 1장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=2jn&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="76" onclick="toggleCheck(76)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">77일차</span><span class="day-title">요한삼서 1장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=3jn&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="77" onclick="toggleCheck(77)"></div></div></div><div class="week-section"><div class="week-title">12차시 | 어린양의 승리와 하나님 나라 완성 (유다서·요한계시록)</div><div class="day-item"><div class="day-info"><span class="day-badge">78일차</span><span class="day-title">유다서 1장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=jud&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="78" onclick="toggleCheck(78)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">79일차</span><span class="day-title">요한계시록 1~4장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=rev&chap=1&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="79" onclick="toggleCheck(79)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">80일차</span><span class="day-title">요한계시록 5~8장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=rev&chap=5&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="80" onclick="toggleCheck(80)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">81일차</span><span class="day-title">요한계시록 9~12장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=rev&chap=9&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="81" onclick="toggleCheck(81)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">82일차</span><span class="day-title">요한계시록 13~16장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=rev&chap=13&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="82" onclick="toggleCheck(82)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">83일차</span><span class="day-title">요한계시록 17~19장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=rev&chap=17&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="83" onclick="toggleCheck(83)"></div></div><div class="day-item"><div class="day-info"><span class="day-badge">84일차</span><span class="day-title">요한계시록 20~22장</span></div><div style="display:flex;align-items:center;gap:10px;"><a class="btn-read" href="https://www.godpia.com/read/reading.asp?ver=gae&vol=rev&chap=20&sec=1" target="_blank" rel="noopener noreferrer">본문 보기</a><input type="checkbox" data-day="84" onclick="toggleCheck(84)"></div></div></div>`;
+function toggleCheck(dayNum){
+ const c=document.querySelector(`input[data-day="${dayNum}"]`);
+ localStorage.setItem(`dream_day_${dayNum}`,c.checked); updateProgress();
+}
+function updateProgress(){
+ let n=0;
+ for(let i=1;i<=84;i++){const v=localStorage.getItem(`dream_day_${i}`)==='true';const c=document.querySelector(`input[data-day="${i}"]`);if(c)c.checked=v;if(v)n++;}
+ document.getElementById('progressBar').value=n;
+ document.getElementById('progressText').innerText=`${n} / 84일 완료 (${Math.round(n/84*100)}%)`;
+}
+updateProgress();
+</script></body></html>
