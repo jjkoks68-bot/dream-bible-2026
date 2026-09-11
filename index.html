@@ -115,20 +115,20 @@
 </div>
 
 <script>
-    // 12주 차시별 커리큘럼 데이터 (각 일차별 갓피아 링크 매칭 포함)
+    // 12주 차시별 커리큘럼 데이터 (각 일차별 성경 본문 매핑)
     const curriculumData = [
         { week: 1, title: "1차시 | 약속의 왕으로 오신 예수님 (마태·마가)", days: 7, startDay: 1, 
-          links: [
-              "https://www.godpia.com/read/reading.asp?book=mat&chap=1", // 1일차: 마태복음 1장 예시
-              "https://www.godpia.com/read/reading.asp?book=mat&chap=4", // 2일차
-              "https://www.godpia.com/read/reading.asp?book=mat&chap=8", // 3일차
-              "https://www.godpia.com/read/reading.asp?book=mat&chap=13",// 4일차
-              "https://www.godpia.com/read/reading.asp?book=mat&chap=20",// 5일차
-              "https://www.godpia.com/read/reading.asp?book=mar&chap=1", // 6일차: 마가복음
-              "https://www.godpia.com/read/reading.asp?book=mar&chap=10" // 7일차
-          ] 
+          readings: [
+              { label: "마태복음 1장", url: "https://www.godpia.com/read/reading.asp?book=mat&chap=1" },
+              { label: "마태복음 4장", url: "https://www.godpia.com/read/reading.asp?book=mat&chap=4" },
+              { label: "마태복음 8장", url: "https://www.godpia.com/read/reading.asp?book=mat&chap=8" },
+              { label: "마태복음 13장", url: "https://www.godpia.com/read/reading.asp?book=mat&chap=13" },
+              { label: "마태복음 20장", url: "https://www.godpia.com/read/reading.asp?book=mat&chap=20" },
+              { label: "마가복음 1장", url: "https://www.godpia.com/read/reading.asp?book=mar&chap=1" },
+              { label: "마가복음 10장", url: "https://www.godpia.com/read/reading.asp?book=mar&chap=10" }
+          ]
         },
-        // 2~12차시는 기본 갓피아 성경 목록 페이지나 대표 링크로 연결되도록 설정 (추후 세부 장 확장 가능)
+        // 2차시 이후 기본 구조 (필요에 따라 각 차시별 readings 배열을 추가하여 상세 설정 가능)
         { week: 2, title: "2차시 | 찾아오시는 구원자와 생명의 길 (누가·요한)", days: 7, startDay: 8 },
         { week: 3, title: "3차시 | 성령으로 세워지는 교회와 믿음의 의 (사도행전·로마서)", days: 7, startDay: 15 },
         { week: 4, title: "4차시 | 사랑으로 세워지는 공동체 (고린도전후서)", days: 7, startDay: 22 },
@@ -154,17 +154,20 @@
                 let dayNum = w.startDay + i;
                 let isChecked = localStorage.getItem(`dream_day_${dayNum}`) === 'true' ? 'checked' : '';
                 
-                // 각 일차별 맞춤 링크가 있으면 사용하고, 없으면 기본 갓피아 읽기 페이지 연결
+                // 각 일차별 맞춤 라벨과 링크 적용 (없을 경우 기본 갓피아 메인 링크)
+                let readingLabel = `신약 읽기 (Day ${dayNum})`;
                 let godpiaUrl = "https://www.godpia.com/read/reading.asp";
-                if (w.links && w.links[i]) {
-                    godpiaUrl = w.links[i];
+                
+                if (w.readings && w.readings[i]) {
+                    readingLabel = w.readings[i].label;
+                    godpiaUrl = w.readings[i].url;
                 }
                 
                 html += `
                     <div class="day-item">
                         <div class="day-info">
                             <span class="day-badge">${dayNum}일차</span>
-                            <span>신약 읽기 (Day ${dayNum})</span>
+                            <span>${readingLabel}</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <a href="${godpiaUrl}" target="_blank" class="btn-godpia">갓피아 성경읽기</a>
@@ -198,15 +201,10 @@
         
         progressBar.value = completedCount;
         let percent = Math.round((completedCount / 84) * 100);
-        progressText.innerText = `${completedCount} / 84일 완료 (${percent%})`;
+        progressText.innerText = `${completedCount} / 84일 완료 (${percent}%)`;
     }
 
     // 앱 실행
-    renderApp();
-</script>
-
-</body>
-</html>
     renderApp();
 </script>
 
