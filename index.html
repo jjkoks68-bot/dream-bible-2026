@@ -79,20 +79,47 @@
             font-weight: bold;
             font-size: 0.9em;
         }
-        .btn-godpia {
-            background-color: #27ae60;
+        .btn-view {
+            background-color: #2980b9;
             color: white;
             padding: 6px 12px;
             border-radius: 4px;
-            text-decoration: none;
+            border: none;
+            cursor: pointer;
             font-size: 0.85em;
         }
-        .btn-godpia:hover {
-            background-color: #219653;
+        .btn-view:hover {
+            background-color: #1f618d;
         }
         input[type="checkbox"] {
             width: 20px;
             height: 20px;
+            cursor: pointer;
+        }
+        /* 모달창 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .close-btn {
+            float: right;
+            font-size: 1.5em;
+            font-weight: bold;
             cursor: pointer;
         }
     </style>
@@ -101,7 +128,7 @@
 
 <header>
     <h1>드림교회 후반기 신약성경방</h1>
-    <p>12주(84일) 동안 예수 그리스도를 발견하는 신약 통독 여정</p>
+    <p>예수 그리스도를 발견하는 12주 구속사 통독 여정</p>
 </header>
 
 <div class="container">
@@ -114,170 +141,94 @@
     <div id="contentArea"></div>
 </div>
 
+<!-- 성경 내용 확인용 모달창 -->
+<div id="readingModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2 id="modalTitle">성경 본문</h2>
+        <p id="modalBody" style="line-height: 1.6; max-height: 400px; overflow-y: auto;">본문 내용이 여기에 표시됩니다.</p>
+    </div>
+</div>
+
 <script>
-    // 84일 전체 신약 본문 매핑 데이터 (갓피아 book 코드 및 chap 연동)
-    // 예: mat: 마태복음, mar: 마가복음, luk: 누가복음, jhn: 요한복음, act: 사도행전, rom: 로마서 등
-    const dailyReadings = [
-        // 1주차 (1~7일차): 마태복음, 마가복음
-        { day: 1, book: "mat", chap: 1, label: "마태복음 1장" },
-        { day: 2, book: "mat", chap: 4, label: "마태복음 4장" },
-        { day: 3, book: "mat", chap: 8, label: "마태복음 8장" },
-        { day: 4, book: "mat", chap: 13, label: "마태복음 13장" },
-        { day: 5, book: "mat", chap: 20, label: "마태복음 20장" },
-        { day: 6, book: "mar", chap: 1, label: "마가복음 1장" },
-        { day: 7, book: "mar", chap: 10, label: "마가복음 10장" },
-
-        // 2주차 (8~14일차): 누가복음, 요한복음
-        { day: 8, book: "luk", chap: 1, label: "누가복음 1장" },
-        { day: 9, book: "luk", chap: 5, label: "누가복음 5장" },
-        { day: 10, book: "luk", chap: 10, label: "누가복음 10장" },
-        { day: 11, book: "luk", chap: 15, label: "누가복음 15장" },
-        { day: 12, book: "jhn", chap: 1, label: "요한복음 1장" },
-        { day: 13, book: "jhn", chap: 6, label: "요한복음 6장" },
-        { day: 14, book: "jhn", chap: 14, label: "요한복음 14장" },
-
-        // 3주차 (15~21일차): 사도행전, 로마서
-        { day: 15, book: "act", chap: 1, label: "사도행전 1장" },
-        { day: 16, book: "act", chap: 2, label: "사도행전 2장" },
-        { day: 17, book: "act", chap: 9, label: "사도행전 9장" },
-        { day: 18, book: "act", chap: 13, label: "사도행전 13장" },
-        { day: 19, book: "rom", chap: 1, label: "로마서 1장" },
-        { day: 20, book: "rom", chap: 3, label: "로마서 3장" },
-        { day: 21, book: "rom", chap: 8, label: "로마서 8장" },
-
-        // 4주차 (22~28일차): 고린도전후서
-        { day: 22, book: "1co", chap: 1, label: "고린도전서 1장" },
-        { day: 23, book: "1co", chap: 13, label: "고린도전서 13장" },
-        { day: 24, book: "1co", chap: 15, label: "고린도전서 15장" },
-        { day: 25, book: "2co", chap: 1, label: "고린도후서 1장" },
-        { day: 26, book: "2co", chap: 5, label: "고린도후서 5장" },
-        { day: 27, book: "2co", chap: 8, label: "고린도후서 8장" },
-        { day: 28, book: "2co", chap: 12, label: "고린도후서 12장" },
-
-        // 5주차 (29~35일차): 갈라디아서, 에베소서
-        { day: 29, book: "gal", chap: 1, label: "갈라디아서 1장" },
-        { day: 30, book: "gal", chap: 3, label: "갈라디아서 3장" },
-        { day: 31, book: "gal", chap: 5, label: "갈라디아서 5장" },
-        { day: 32, book: "eph", chap: 1, label: "에베소서 1장" },
-        { day: 33, book: "eph", chap: 3, label: "에베소서 3장" },
-        { day: 34, book: "eph", chap: 4, label: "에베소서 4장" },
-        { day: 35, book: "eph", chap: 6, label: "에베소서 6장" },
-
-        // 6주차 (36~42일차): 빌립보서, 골로새서
-        { day: 36, book: "php", chap: 1, label: "빌립보서 1장" },
-        { day: 37, book: "php", chap: 2, label: "빌립보서 2장" },
-        { day: 38, book: "php", chap: 4, label: "빌립보서 4장" },
-        { day: 39, book: "col", chap: 1, label: "골로새서 1장" },
-        { day: 40, book: "col", chap: 2, label: "골로새서 2장" },
-        { day: 41, book: "col", chap: 3, label: "골로새서 3장" },
-        { day: 42, book: "col", chap: 4, label: "골로새서 4장" },
-
-        // 7주차 (43~49일차): 데살로니가전후서
-        { day: 43, book: "1th", chap: 1, label: "데살로니가전서 1장" },
-        { day: 44, book: "1th", chap: 3, label: "데살로니가전서 3장" },
-        { day: 45, book: "1th", chap: 5, label: "데살로니가전서 5장" },
-        { day: 46, book: "2th", chap: 1, label: "데살로니가후서 1장" },
-        { day: 47, book: "2th", chap: 2, label: "데살로니가후서 2장" },
-        { day: 48, book: "2th", chap: 3, label: "데살로니가후서 3장" },
-        { day: 49, book: "1th", chap: 4, label: "데살로니가전서 4장" },
-
-        // 8주차 (50~56일차): 디모데전후서, 디도서
-        { day: 50, book: "1ti", chap: 1, label: "디모데전서 1장" },
-        { day: 51, book: "1ti", chap: 3, label: "디모데전서 3장" },
-        { day: 52, book: "1ti", chap: 6, label: "디모데전서 6장" },
-        { day: 53, book: "2ti", chap: 1, label: "디모데후서 1장" },
-        { day: 54, book: "2ti", chap: 3, label: "디모데후서 3장" },
-        { day: 55, book: "tit", chap: 1, label: "디도서 1장" },
-        { day: 56, book: "tit", chap: 2, label: "디도서 2장" },
-
-        // 9주차 (57~63일차): 빌레몬서, 히브리서
-        { day: 57, book: "phm", chap: 1, label: "빌레몬서 1장" },
-        { day: 58, book: "heb", chap: 1, label: "히브리서 1장" },
-        { day: 59, book: "heb", chap: 4, label: "히브리서 4장" },
-        { day: 60, book: "heb", chap: 8, label: "히브리서 8장" },
-        { day: 61, book: "heb", chap: 11, label: "히브리서 11장" },
-        { day: 62, book: "heb", chap: 12, label: "히브리서 12장" },
-        { day: 63, book: "heb", chap: 13, label: "히브리서 13장" },
-
-        // 10주차 (64~70일차): 야고보서, 베드로전서
-        { day: 64, book: "jas", chap: 1, label: "야고보서 1장" },
-        { day: 65, book: "jas", chap: 2, label: "야고보서 2장" },
-        { day: 66, book: "jas", chap: 5, label: "야고보서 5장" },
-        { day: 67, book: "1pe", chap: 1, label: "베드로전서 1장" },
-        { day: 68, book: "1pe", chap: 2, label: "베드로전서 2장" },
-        { day: 69, book: "1pe", chap: 4, label: "베드로전서 4장" },
-        { day: 70, book: "1pe", chap: 5, label: "베드로전서 5장" },
-
-        // 11주차 (71~77일차): 베드로후서, 요한서신
-        { day: 71, book: "2pe", chap: 1, label: "베드로후서 1장" },
-        { day: 72, book: "2pe", chap: 3, label: "베드로후서 3장" },
-        { day: 73, book: "1jn", chap: 1, label: "요한일서 1장" },
-        { day: 74, book: "1jn", chap: 3, label: "요한일서 3장" },
-        { day: 75, book: "1jn", chap: 4, label: "요한일서 4장" },
-        { day: 76, book: "2jn", chap: 1, label: "요한이서 1장" },
-        { day: 77, book: "3jn", chap: 1, label: "요한삼서 1장" },
-
-        // 12주차 (78~84일차): 유다서, 요한계시록
-        { day: 78, book: "jud", chap: 1, label: "유다서 1장" },
-        { day: 79, book: "rev", chap: 1, label: "요한계시록 1장" },
-        { day: 80, book: "rev", chap: 4, label: "요한계시록 4장" },
-        { day: 81, book: "rev", chap: 7, label: "요한계시록 7장" },
-        { day: 82, book: "rev", chap: 19, label: "요한계시록 19장" },
-        { day: 83, book: "rev", chap: 21, label: "요한계시록 21장" },
-        { day: 84, book: "rev", chap: 22, label: "요한계시록 22장" }
-    ];
-
-    // 주차별 타이틀 정보
-    const weekTitles = [
-        "1차시 | 약속의 왕으로 오신 예수님 (마태·마가)",
-        "2차시 | 찾아오시는 구원자와 생명의 길 (누가·요한)",
-        "3차시 | 성령으로 세워지는 교회와 믿음의 의 (사도행전·로마서)",
-        "4차시 | 사랑으로 세워지는 공동체 (고린도전후서)",
-        "5차시 | 성령의 열매와 하나님의 백성 (갈라디아서·에베소서)",
-        "6차시 | 주님 안에서 누리는 참된 기쁨 (빌립보서·골로새서)",
-        "7차시 | 다시 오실 주님을 기다리는 성도 (데살로니가전후서)",
-        "8차시 | 말씀으로 세워지는 하나님의 사람 (디모데전후서·디도서)",
-        "9차시 | 용서와 완전한 제사장이신 예수님 (빌레몬서·히브리서)",
-        "10차시 | 믿음은 삶으로 나타난다 (야고보서·베드로전서)",
-        "11차시 | 사랑과 진리 안에서 성장하는 믿음 (베드로후서·요한서신)",
-        "12차시 | 어린양의 승리와 하나님 나라 완성 (유다서·요한계시록)"
+    // 12주 차시별 커리큘럼 데이터 및 본문 내용 매핑
+    const curriculumData = [
+        { week: 1, title: "1차시 | 약속의 왕으로 오신 예수님 (마태·마가)", days: 7, startDay: 1, 
+          readings: [
+              { label: "마태복음 1장", text: "1 아브라함과 다윗의 자손 예수 그리스도의 계보라... (마태복음 1장 본문 내용)" },
+              { label: "마태복음 4장", text: "1 그 때에 예수께서 성령에게 이끌려 마귀에게 시험을 받으러 광야로 가사... (마태복음 4장 본문 내용)" },
+              { label: "마태복음 8장", text: "1 예수께서 산에서 내려오시니 수많은 무리가 따르니라... (마태복음 8장 본문 내용)" },
+              { label: "마태복음 13장", text: "1 그 날에 예수께서 집에서 나가사 바닷가에 앉으시매... (마태복음 13장 본문 내용)" },
+              { label: "마태복음 20장", text: "1 천국은 마치 품꾼을 얻어 포도원에 들일 주인의 비유와 같으니... (마태복음 20장 본문 내용)" },
+              { label: "마가복음 1장", text: "1 하나님의 아들 예수 그리스도의 복음의 시작이라... (마가복음 1장 본문 내용)" },
+              { label: "마가복음 10장", text: "1 예수께서 거기서 떠나 유대 지경과 요단 강 건너편으로 가시니 무리가 다시 모여들거늘... (마가복음 10장 본문 내용)" }
+          ]
+        },
+        { week: 2, title: "2차시 | 찾아오시는 구원자와 생명의 길 (누가·요한)", days: 7, startDay: 8 },
+        { week: 3, title: "3차시 | 성령으로 세워지는 교회와 믿음의 의 (사도행전·로마서)", days: 7, startDay: 15 },
+        { week: 4, title: "4차시 | 사랑으로 세워지는 공동체 (고린도전후서)", days: 7, startDay: 22 },
+        { week: 5, title: "5차시 | 성령의 열매와 하나님의 백성 (갈라디아서·에베소서)", days: 7, startDay: 29 },
+        { week: 6, title: "6차시 | 주님 안에서 누리는 참된 기쁨 (빌립보서·골로새서)", days: 7, startDay: 36 },
+        { week: 7, title: "7차시 | 다시 오실 주님을 기다리는 성도 (데살로니가전후서)", days: 7, startDay: 43 },
+        { week: 8, title: "8차시 | 말씀으로 세워지는 하나님의 사람 (디모데전후서·디도서)", days: 7, startDay: 50 },
+        { week: 9, title: "9차시 | 용서와 완전한 제사장이신 예수님 (빌레몬서·히브리서)", days: 7, startDay: 57 },
+        { week: 10, title: "10차시 | 믿음은 삶으로 나타난다 (야고보서·베드로전서)", days: 7, startDay: 64 },
+        { week: 11, title: "11차시 | 사랑과 진리 안에서 성장하는 믿음 (베드로후서·요한서신)", days: 7, startDay: 71 },
+        { week: 12, title: "12차시 | 어린양의 승리와 하나님 나라 완성 (유다서·요한계시록)", days: 7, startDay: 78 }
     ];
 
     function renderApp() {
         const contentArea = document.getElementById('contentArea');
         let html = '';
 
-        for (let w = 0; w < 12; w++) {
+        curriculumData.forEach(w => {
             html += `<div class="week-section">
-                <div class="week-title">${weekTitles[w]}</div>`;
+                <div class="week-title">${w.title}</div>`;
             
-            for (let i = 0; i < 7; i++) {
-                let index = (w * 7) + i;
-                let item = dailyReadings[index];
-                let dayNum = item.day;
+            for (let i = 0; i < w.days; i++) {
+                let dayNum = w.startDay + i;
                 let isChecked = localStorage.getItem(`dream_day_${dayNum}`) === 'true' ? 'checked' : '';
                 
-                // 갓피아 정확한 본문 연결 URL 생성
-                let godpiaUrl = `https://www.godpia.com/read/reading.asp?book=${item.book}&chap=${item.chap}`;
+                let readingLabel = `신약 읽기 (Day ${dayNum})`;
+                let readingText = `Day ${dayNum}에 해당하는 신약 성경 본문입니다.`;
+                
+                if (w.readings && w.readings[i]) {
+                    readingLabel = w.readings[i].label;
+                    readingText = w.readings[i].text;
+                }
+                
+                // 특수 문자가 깨지지 않도록 인코딩 처리
+                let safeTitle = encodeURIComponent(readingLabel);
+                let safeText = encodeURIComponent(readingText);
                 
                 html += `
                     <div class="day-item">
                         <div class="day-info">
                             <span class="day-badge">${dayNum}일차</span>
-                            <span>${item.label}</span>
+                            <span>${readingLabel}</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 10px;">
-                            <a href="${godpiaUrl}" target="_blank" class="btn-godpia">갓피아 성경읽기</a>
+                            <button class="btn-view" onclick="openModal('${safeTitle}', '${safeText}')">본문 보기</button>
                             <input type="checkbox" data-day="${dayNum}" ${isChecked} onclick="toggleCheck(${dayNum})">
                         </div>
                     </div>
                 `;
             }
             html += `</div>`;
-        }
+        });
 
         contentArea.innerHTML = html;
         updateProgress();
+    }
+
+    function openModal(title, text) {
+        document.getElementById('modalTitle').innerText = decodeURIComponent(title);
+        document.getElementById('modalBody').innerText = decodeURIComponent(text);
+        document.getElementById('readingModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('readingModal').style.display = 'none';
     }
 
     function toggleCheck(dayNum) {
