@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>드림교회 후반기 신약성경방</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #2980b9;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+        }
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .progress-container {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        progress {
+            width: 100%;
+            height: 20px;
+            border-radius: 10px;
+        }
+        .week-section {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .week-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+        .day-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .day-item:last-child {
+            border-bottom: none;
+        }
+        .day-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .day-badge {
+            background: #eef2f7;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .btn-godpia {
+            background-color: #27ae60;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.85em;
+        }
+        .btn-godpia:hover {
+            background-color: #219653;
+        }
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>드림교회 후반기 신약성경방</h1>
+    <p>예수 그리스도를 발견하는 12주 구속사 통독 여정</p>
+</header>
+
+<div class="container">
+    <div class="progress-container">
+        <h3>나의 통독 진도율</h3>
+        <progress id="progressBar" value="0" max="84"></progress>
+        <p id="progressText">0 / 84일 완료 (0%)</p>
+    </div>
+
+    <div id="contentArea"></div>
+</div>
+
+<script>
+    // 12주 차시별 커리큘럼 데이터
+    const curriculumData = [
+        { week: 1, title: "1차시 | 약속의 왕으로 오신 예수님 (마태·마가)", days: 7, startDay: 1 },
+        { week: 2, title: "2차시 | 찾아오시는 구원자와 생명의 길 (누가·요한)", days: 7, startDay: 8 },
+        { week: 3, title: "3차시 | 성령으로 세워지는 교회와 믿음의 의 (사도행전·로마서)", days: 7, startDay: 15 },
+        { week: 4, title: "4차시 | 사랑으로 세워지는 공동체 (고린도전후서)", days: 7, startDay: 22 },
+        { week: 5, title: "5차시 | 성령의 열매와 하나님의 백성 (갈라디아서·에베소서)", days: 7, startDay: 29 },
+        { week: 6, title: "6차시 | 주님 안에서 누리는 참된 기쁨 (빌립보서·골로새서)", days: 7, startDay: 36 },
+        { week: 7, title: "7차시 | 다시 오실 주님을 기다리는 성도 (데살로니가전후서)", days: 7, startDay: 43 },
+        { week: 8, title: "8차시 | 말씀으로 세워지는 하나님의 사람 (디모데전후서·디도서)", days: 7, startDay: 50 },
+        { week: 9, title: "9차시 | 용서와 완전한 제사장이신 예수님 (빌레몬서·히브리서)", days: 7, startDay: 57 },
+        { week: 10, title: "10차시 | 믿음은 삶으로 나타난다 (야고보서·베드로전서)", days: 7, startDay: 64 },
+        { week: 11, title: "11차시 | 사랑과 진리 안에서 성장하는 믿음 (베드로후서·요한서신)", days: 7, startDay: 71 },
+        { week: 12, title: "12차시 | 어린양의 승리와 하나님 나라 완성 (유다서·요한계시록)", days: 7, startDay: 78 }
+    ];
+
+    function renderApp() {
+        const contentArea = document.getElementById('contentArea');
+        let html = '';
+
+        curriculumData.forEach(w => {
+            html += `<div class="week-section">
+                <div class="week-title">${w.title}</div>`;
+            
+            for (let i = 0; i < w.days; i++) {
+                let dayNum = w.startDay + i;
+                let isChecked = localStorage.getItem(`dream_day_${dayNum}`) === 'true' ? 'checked' : '';
+                
+                html += `
+                    <div class="day-item">
+                        <div class="day-info">
+                            <span class="day-badge">${dayNum}일차</span>
+                            <span>신약 읽기 (Day ${dayNum})</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <a href="https://www.godpia.com/read/reading.asp" target="_blank" class="btn-godpia">갓피아 성경읽기</a>
+                            <input type="checkbox" data-day="${dayNum}" ${isChecked} onclick="toggleCheck(${dayNum})">
+                        </div>
+                    </div>
+                `;
+            }
+            html += `</div>`;
+        });
+
+        contentArea.innerHTML = html;
+        updateProgress();
+    }
+
+    function toggleCheck(dayNum) {
+        const checkbox = document.querySelector(`input[data-day="${dayNum}"]`);
+        localStorage.setItem(`dream_day_${dayNum}`, checkbox.checked);
+        updateProgress();
+    }
+
+    function updateProgress() {
+        let completedCount = 0;
+        for (let i = 1; i <= 84; i++) {
+            if (localStorage.getItem(`dream_day_${i}`) === 'true') {
+                completedCount++;
+            }
+        }
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        
+        progressBar.value = completedCount;
+        let percent = Math.round((completedCount / 84) * 100);
+        progressText.innerText = `${completedCount} / 84일 완료 (${percent}%)`;
+    }
+
+    // 앱 실행
+    renderApp();
+</script>
+
+</body>
+</html>
